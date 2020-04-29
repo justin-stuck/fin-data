@@ -10,3 +10,7 @@ Tools to acquire financial data from various sources
 ```
 python -m --scrape_type <type-of-data-to-scrape>
 ```
+
+## Supported Data
+- Financial Statements (2005-present) (via [MacroTrends](https://www.macrotrends.net/)) (WIP)
+- Stock Data (TODO)
