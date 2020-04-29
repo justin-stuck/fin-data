@@ -7,6 +7,6 @@ Tools to acquire financial data from various sources
 
 
 ## Run Locally
-``` python 
+```
 python -m --scrape_type <type-of-data-to-scrape>
 ```
