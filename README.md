@@ -13,4 +13,10 @@ python -m --scrape_type <type-of-data-to-scrape>
 
 ## Supported Data
 - Financial Statements (2005-present) (via [MacroTrends](https://www.macrotrends.net/)) (WIP)
-- Stock Data (TODO)
+    - scrape_type='financial_statements'
+    - TODO: Create better workflow for updating info
+    - TODO: Add customization
+- SEC Open Data data sets (via sec.gov)
+    - scrape_type='sec'
+    - TODO: Add customization
+- Market Data (via Yahoo! Finance via pandas datareader) (TODO)
