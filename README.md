@@ -16,7 +16,7 @@ python -m --scrape_type <type-of-data-to-scrape>
     - scrape_type='financial_statements'
     - TODO: Create better workflow for updating info
     - TODO: Add customization
-- SEC Open Data data sets (via [sec.gov](sec.gov))
+- SEC Open Data data sets (via [sec.gov/data](https://www.sec.gov/data))
     - scrape_type='sec'
     - TODO: Add customization
 - Market Data (via Yahoo! Finance via pandas datareader) (TODO)
