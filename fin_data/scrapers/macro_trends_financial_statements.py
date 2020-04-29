@@ -10,7 +10,7 @@ from datetime import date, datetime
 from pathlib import Path
 from time import sleep
 from typing import List
-from ..drivers.chrome_driver import ChromeDriver
+from ..selenium_drivers.chrome_driver import ChromeDriver
 
 
 p = re.compile(r" var originalData = (.*?);\r\n\r\n\r", re.DOTALL)
