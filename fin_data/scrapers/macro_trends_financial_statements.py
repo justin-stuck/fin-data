@@ -82,7 +82,7 @@ class MacroTrendsScraper:
         all_tickers = []
         all_links = []
         last_page = False
-        with ChromeDriver() as d:
+        with ChromeDriver("fin_data/selenium_drivers/chromedriver.exe") as d:
             d.driver.get(self.SCREENER_URL)
             while not last_page:
                 # get stock names
@@ -161,10 +161,11 @@ class MacroTrendsScraper:
 
 
 if __name__ == "__main__":
-    scraper = MacroTrendsScraper()
+    # scraper = MacroTrendsScraper()
     # scraper.get_available_stocks()
-    stocks = scraper.get_recent_available_stocks()
-    scraper.download_available_financial_statements(stocks)
+    # stocks = scraper.get_recent_available_stocks()
+    # scraper.download_available_financial_statements(stocks)
     # stocks = scraper.get_available_stocks(
     #    export_path=f"data/available_stocks/{today}.csv"
     # )
+    pass
