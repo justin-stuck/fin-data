@@ -54,6 +54,8 @@ class StockPrices:
             try:
                 stock_path = os.path.join(self.PATH, f"{ticker}.csv")
                 # TODO append if start date differs from max date else pull all
+                # also need to check if day was yesterday and handle pulls for 
+                # individual days
                 start, end = self.pull_config["start"], self.pull_config["end"]
                 df = self.get_stock_data_from_source(
                     ticker=ticker, start=start, end=end
