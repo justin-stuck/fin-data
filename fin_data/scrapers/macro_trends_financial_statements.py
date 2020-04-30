@@ -158,14 +158,3 @@ class MacroTrendsScraper:
         print(params_list)
         with ThreadPoolExecutor() as f:
             list(f.map(download_financial_statements, params_list))
-
-
-if __name__ == "__main__":
-    # scraper = MacroTrendsScraper()
-    # scraper.get_available_stocks()
-    # stocks = scraper.get_recent_available_stocks()
-    # scraper.download_available_financial_statements(stocks)
-    # stocks = scraper.get_available_stocks(
-    #    export_path=f"data/available_stocks/{today}.csv"
-    # )
-    pass
