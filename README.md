@@ -8,7 +8,7 @@ Tools to acquire financial data from various sources
 
 ## Run Locally
 ```
-python -m --scrape_type <type-of-data-to-scrape>
+python -m fin_data --scrape_type <type-of-data-to-scrape>
 ```
 
 ## Supported Data

@@ -1,10 +1,12 @@
 import json
-import os
-import pandas as pd
 import logging
+import os
 from datetime import datetime, timedelta
-from pandas_datareader import data
 from typing import List
+
+import pandas as pd
+from pandas_datareader import data
+
 
 # max is old
 # min is new
@@ -49,12 +51,12 @@ class StockPrices:
 
     def download_available_stock_data(self, overwrite=False):
         # TODO create functionality to only get data that isn't there
-        for ticker in self.available_stocks[:10]:
+        for ticker in self.available_stocks:
             logging.info(f"Downloading data for {ticker} on {self.TODAY}")
             try:
                 stock_path = os.path.join(self.PATH, f"{ticker}.csv")
                 # TODO append if start date differs from max date else pull all
-                # also need to check if day was yesterday and handle pulls for 
+                # also need to check if day was yesterday and handle pulls for
                 # individual days
                 start, end = self.pull_config["start"], self.pull_config["end"]
                 df = self.get_stock_data_from_source(
@@ -70,6 +72,4 @@ class StockPrices:
         )
         with open(self.PULL_CONFIG, "w") as f:
             json.dump(self.pull_config, f)
-        logging.info(
-            f"Successfully wrote pull config to {self.PULL_CONFIG}"
-        )
+        logging.info(f"Successfully wrote pull config to {self.PULL_CONFIG}")
