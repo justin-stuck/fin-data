@@ -1,17 +1,18 @@
 import json
 import os
-import numpy as np
-import pandas as pd
 import re
-import requests
-from bs4 import BeautifulSoup
 from concurrent.futures import ThreadPoolExecutor
 from datetime import date, datetime
 from pathlib import Path
 from time import sleep
 from typing import List
-from ..selenium_drivers.chrome_driver import ChromeDriver
 
+import numpy as np
+import pandas as pd
+import requests
+from bs4 import BeautifulSoup
+
+from ..selenium_drivers.chrome_driver import ChromeDriver
 
 p = re.compile(r" var originalData = (.*?);\r\n\r\n\r", re.DOTALL)
 
@@ -53,17 +54,16 @@ def download_financial_statements(data):
 
 
 class MacroTrendsScraper:
-    SCREENER_URL = "https://www.macrotrends.net/stocks/stock-screener"
-    financial_statements = [
-        "income-statement",
-        "balance-sheet",
-        "cash-flow-statement",
-        "financial-ratios",
-    ]
-    freqs = {"annual": "", "quarterly": "?freq=Q"}
-    today = date.today().strftime("%m_%d_%Y")
-
     def __init__(self):
+        self.SCREENER_URL = "https://www.macrotrends.net/stocks/stock-screener"
+        self.financial_statements = [
+            "income-statement",
+            "balance-sheet",
+            "cash-flow-statement",
+            "financial-ratios",
+        ]
+        self.freqs = {"annual": "", "quarterly": "?freq=Q"}
+        self.today = date.today().strftime("%m_%d_%Y")
         self.create_data_folders()
 
     def create_data_folders(self):
@@ -121,7 +121,7 @@ class MacroTrendsScraper:
                     d.driver.find_element_by_xpath(
                         "//div[@id='pagerjqxGrid']/div[1]/div[last()-2]"
                     ).click()
-                    # check that results of next page have loadead. if not, wait a second
+                    # check that results of next page have loaded. if not, wait a second
                     if (
                         d.driver.find_elements_by_xpath(
                             "//div[@id='contenttablejqxGrid']/div[@id='row0jqxGrid']/div[1]/div[1]/div[1]"
