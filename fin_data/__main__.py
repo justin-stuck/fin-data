@@ -15,9 +15,13 @@ def main(scrape_type: str, db: bool = True):
     logging.basicConfig(level="INFO")
     Path(DATA_PATH).mkdir(exist_ok=True)
     print(scrape_type)
-    if scrape_type == "financial_statements":
+    if scrape_type == "available_stocks":
         scraper = MacroTrendsScraper()
         scraper.get_available_stocks()
+    elif scrape_type == "financial_statements":
+        scraper = MacroTrendsScraper()
+        available_stocks = scraper.get_recent_available_stocks()
+        pass
     elif scrape_type == "sec":
         path = os.path.join(DATA_PATH, "SECData")
         Path(path).mkdir(exist_ok=True)

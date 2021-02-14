@@ -77,13 +77,28 @@ class MacroTrendsScraper:
                     )
                 ).mkdir(parents=True, exist_ok=True)
 
+    @staticmethod
+    def get_column_values_from_xpath(driver, col_num):
+        xpath = f"//div[@id='contenttablejqxGrid']/div[@role='row']/div[{col_num}]/div[1]"
+        elements = driver.driver.find_elements_by_xpath(xpath)
+        return driver.get_text_from_elements(elements)
+
     def get_available_stocks(self):
         all_names = []
         all_tickers = []
         all_links = []
+        all_exchanges = []
+        all_countries = []
+        all_sectors = []
+        all_industries = []
+
         last_page = False
         with ChromeDriver("fin_data/selenium_drivers/chromedriver.exe") as d:
             d.driver.get(self.SCREENER_URL)
+            # go to descriptive page
+            d.driver.find_element_by_xpath(
+                "//li[@id='columns_descriptive']"
+            ).click()
             while not last_page:
                 # get stock names
                 name_elems = d.driver.find_elements_by_xpath(
@@ -93,12 +108,15 @@ class MacroTrendsScraper:
                 all_names.extend(names)
 
                 # get stock ticker
-                ticker_elems = d.driver.find_elements_by_xpath(
-                    "//div[@id='contenttablejqxGrid']/div[@role='row']/div[2]/div[1]"
-                )
-                tickers = d.get_text_from_elements(ticker_elems)
-                all_tickers.extend(tickers)
-
+                all_tickers.extend(self.get_column_values_from_xpath(d, 2))
+                # get stock exchange
+                all_exchanges.extend(self.get_column_values_from_xpath(d, 4))
+                # get stock country
+                all_countries.extend(self.get_column_values_from_xpath(d, 5))
+                # get stock sector
+                all_sectors.extend(self.get_column_values_from_xpath(d, 6))
+                # get stock industry
+                all_industries.extend(self.get_column_values_from_xpath(d, 7))
                 # get stock base url for financial statements
                 link_elems = d.driver.find_elements_by_xpath(
                     "//div[@id='contenttablejqxGrid']/div[@role='row']/div[1]/div[1]/div[1]/a[1]"
@@ -131,12 +149,31 @@ class MacroTrendsScraper:
                         sleep(1)
 
         # zip results and filter stocks with missing info
-        results = list(zip(all_names, all_tickers, all_links))
+        results = list(
+            zip(
+                all_names,
+                all_tickers,
+                all_links,
+                all_exchanges,
+                all_countries,
+                all_sectors,
+                all_industries,
+            )
+        )
         results = list(filter(lambda x: all(i != "" for i in x), results))
 
-        pd.DataFrame(results, columns=["name", "ticker", "link"]).to_csv(
-            f"data/available_stocks/{self.today}.csv", index=False
-        )
+        pd.DataFrame(
+            results,
+            columns=[
+                "name",
+                "ticker",
+                "link",
+                "exchange",
+                "country",
+                "sector",
+                "industry",
+            ],
+        ).to_csv(f"data/available_stocks/{self.today}.csv", index=False)
         return results
 
     def get_recent_available_stocks(self):
