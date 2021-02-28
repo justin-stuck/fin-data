@@ -2,12 +2,15 @@ import logging
 import os
 from pathlib import Path
 
+from dotenv import dotenv_values, load_dotenv
 from fire import Fire
 
 from .scrapers.macro_trends_financial_statements import MacroTrendsScraper
 from .scrapers.sec import download_sec_data, extract_files_in_folders
 from .scrapers.stocks import StockPrices
 
+ENV_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../.env")
+load_dotenv(ENV_PATH)
 DATA_PATH = "data"
 
 
@@ -28,13 +31,16 @@ def main(scrape_type: str, db: bool = True):
         download_sec_data(data_path=DATA_PATH, overwrite=False)
         extract_files_in_folders()
     elif scrape_type == "stock":
-        path = os.path.join(DATA_PATH, "stocks")
-        Path(path).mkdir(exist_ok=True)
         scraper = MacroTrendsScraper()
         available_stocks = scraper.get_recent_available_stocks()
         available_stocks = [x["ticker"] for x in available_stocks]
         price_puller = StockPrices(available_stocks)
-        price_puller.download_available_stock_data()
+        if db:
+            price_puller.download_available_stock_data_to_db()
+        else:
+            path = os.path.join(DATA_PATH, "stocks")
+            Path(path).mkdir(exist_ok=True)
+            price_puller.download_available_stock_data()
 
 
 if __name__ == "__main__":
