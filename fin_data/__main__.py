@@ -2,15 +2,12 @@ import logging
 import os
 from pathlib import Path
 
-from dotenv import dotenv_values, load_dotenv
 from fire import Fire
 
 from .scrapers.macro_trends_financial_statements import MacroTrendsScraper
 from .scrapers.sec import download_sec_data, extract_files_in_folders
 from .scrapers.stocks import StockPrices
 
-ENV_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../.env")
-load_dotenv(ENV_PATH)
 DATA_PATH = "data"
 
 
