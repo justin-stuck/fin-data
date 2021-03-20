@@ -131,6 +131,3 @@ dmypy.json
 
 # csv files
 *.csv
-
-# local dev config
-fin_data/config.py
