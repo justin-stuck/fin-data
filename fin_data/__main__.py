@@ -4,6 +4,9 @@ from pathlib import Path
 
 from fire import Fire
 
+from .alpaca.tools import update_stock_info_table
+from .database.database import create_tables
+from .prices.stocks.update_tables import update_price_tables
 from .scrapers.macro_trends_financial_statements import MacroTrendsScraper
 from .scrapers.sec import download_sec_data, extract_files_in_folders
 from .scrapers.stocks import StockPrices
@@ -33,12 +36,18 @@ def main(scrape_type: str, db: bool = True):
         available_stocks = [x["ticker"] for x in available_stocks]
         price_puller = StockPrices(available_stocks)
         if db:
-            price_puller.download_available_stock_data_to_db()
+            pass
+            # price_puller.download_available_stock_data_to_db()
         else:
             path = os.path.join(DATA_PATH, "stocks")
             Path(path).mkdir(exist_ok=True)
             price_puller.download_available_stock_data()
+    elif scrape_type == "database":
+        create_tables()
+        update_stock_info_table()
+        update_price_tables()
 
 
 if __name__ == "__main__":
+    logging.getLogger().setLevel(logging.INFO)
     Fire(main)
